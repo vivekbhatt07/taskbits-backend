@@ -27,7 +27,10 @@ const taskSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+    },
     labels: [
       {
         type: mongoose.Schema.Types.ObjectId,
