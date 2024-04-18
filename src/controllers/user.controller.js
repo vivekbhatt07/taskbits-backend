@@ -362,6 +362,67 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     );
 });
 
+const checkUserExistenceByEmail = asyncHandler(async (req, res) => {
+  const { email } = req.params;
+  try {
+    const user = await User.findOne({ email });
+    console.log(user);
+    if (user) {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, { emailExists: true }, "Email already exist")
+        );
+    } else {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, { emailExists: false }, "Email does not exist")
+        );
+    }
+  } catch (error) {
+    throw new ApiError(
+      500,
+      error?.message ||
+        "Something went wrong while checking user existence through email"
+    );
+  }
+});
+
+const checkUserExistenceByUsername = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { usernameExists: true },
+            "Username already exist"
+          )
+        );
+    } else {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            { usernameExists: false },
+            "Username does not exist"
+          )
+        );
+    }
+  } catch (error) {
+    throw new ApiError(
+      500,
+      error?.message ||
+        "Something went wrong while checking user existence through username"
+    );
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -373,4 +434,6 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
+  checkUserExistenceByEmail,
+  checkUserExistenceByUsername,
 };

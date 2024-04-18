@@ -10,6 +10,8 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
+  checkUserExistenceByEmail,
+  checkUserExistenceByUsername,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -47,4 +49,6 @@ router
   .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
 router.route("/channel/:username").get(verifyJWT, getUserChannelProfile);
+router.route("/email/:email").get(checkUserExistenceByEmail);
+router.route("/username/:username").get(checkUserExistenceByUsername);
 export default router;
